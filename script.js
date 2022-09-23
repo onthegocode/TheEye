@@ -1,48 +1,50 @@
 "use strict";
-
-const eyesContainer = document.querySelector(".eyes");
 const eyes = document.querySelectorAll(".eye");
+const main = document.querySelector(".main");
 const eyeWhite = document.querySelector(".baseWhite");
 const eyeBrown = document.querySelector(".baseBrown");
-const eyeBlack = document.querySelector(".baseBlack");
+const lid1 = document.querySelector(".lid1");
+const lid2 = document.querySelector(".lid2");
 const anchor = eyeWhite.getBoundingClientRect();
 const anchorX = anchor.left + anchor.width / 2;
 const anchorY = anchor.top + anchor.height / 2;
-const lid1 = document.querySelector(".lid1");
-const lid2 = document.querySelector(".lid2");
-console.log(lid1, lid2);
-console.log(lid1.translate);
-const angle = function (cx, cy, ex, ey) {
-	const dy = ey - cy;
-	const dx = ex - cx;
-	const rad = Math.atan2(dy, dx);
-	const deg = (rad * 180) / Math.PI;
-	return deg;
-};
-const eye = function (e) {
-	const mouseX = e.clientX;
-	const mouseY = e.clientY;
-	const angleDeg = angle(mouseX, mouseY, anchorX, anchorY);
-	// console.log(angleEye);
+const angle = (cx, cy, ex, ey) =>
+	(Math.atan2(ey - cy, ex - cx) * 180) / Math.PI;
+
+const eye = (e) => {
+	const angleDeg = angle(e.clientX, e.clientY, anchorX, anchorY);
 	eyes.forEach((eye) => {
-		// const angleEye =
-		// 	anchorX + 100 >= mouseX &&
-		// 	anchorX - 100 <= mouseX &&
-		// 	anchorY + 100 >= mouseY &&
-		// 	anchorY - 100 <= mouseY
-		// 		? `rotate(${angleDeg - 90}deg)`
-		// 		: `rotate(${90 + angleDeg}deg)`;
 		eye.style.transform = `rotate(${90 + angleDeg}deg)`;
 		eyeBrown.style.filter = `hue-rotate(${angleDeg}deg)`;
 	});
 };
+
 const blink = () => {
-	lid1.classList.add("lid1-animate", "transition");
-	lid2.classList.add("lid2-animate", "transition");
+	lid1.classList.add("lid-close", "transition");
+	lid2.classList.add("lid-close", "transition");
 	setTimeout(() => {
-		lid1.classList.remove("lid1-animate");
-		lid2.classList.remove("lid2-animate");
+		lid1.classList.remove("lid-close");
+		lid2.classList.remove("lid-close");
 	}, 500);
 };
-setInterval(blink, 12000);
+
+setInterval(blink, 10000);
 document.addEventListener("mousemove", eye);
+
+main.addEventListener("click", (e) => {
+	setInterval(() => {
+		document.removeEventListener("mousemove", eye);
+		let randX = Math.random() * 800 + 1;
+		let randY = Math.random() * 900 + 1;
+		eyes.forEach((eye) => {
+			const angleDeg = angle(randX, randY, anchorX, anchorY);
+			eye.style.transition = "all 1s ease";
+			eye.style.transform = `rotate(${90 + angleDeg}deg)`;
+			eyeBrown.style.filter = `hue-rotate(${Math.random() * 200 + 1}deg)`;
+		});
+	}, 800);
+});
+
+if (window.innerWidth <= 600) {
+	freeeye();
+}
