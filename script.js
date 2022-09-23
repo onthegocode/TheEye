@@ -45,6 +45,6 @@ main.addEventListener("click", (e) => {
 	}, 800);
 });
 
-if (window.innerWidth <= 600) {
+if (navigator.userAgentData.mobile) {
 	freeeye();
 }
