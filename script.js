@@ -30,8 +30,8 @@ const blink = () => {
 const freeEye = () => {
 	setInterval(() => {
 		document.removeEventListener("mousemove", eye);
-		let randX = Math.random() * 900 + 1;
-		let randY = Math.random() * 900 + 1;
+		let randX = Math.random() * 2000 + 1;
+		let randY = Math.random() * 2000 + 1;
 		eyes.forEach((eye) => {
 			const angleDeg = angle(randX, randY, anchorX, anchorY);
 			eye.style.transition = "all 1s ease";
