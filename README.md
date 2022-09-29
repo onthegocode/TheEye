@@ -1,4 +1,4 @@
 # TheEye
 Mouse Follow - Proximity Hover Effect
 
-link: https://onthegocode.github.io/TheEye/
+Link: https://onthegocode.github.io/TheEye/
